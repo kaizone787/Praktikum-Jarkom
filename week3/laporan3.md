@@ -12,7 +12,7 @@
 **Tujuan:** Mengunduh file HTML sederhana yang sangat pendek dan tidak berisi objek yang disematkan.
 
 **Bukti *Screenshot* Wireshark:**
-> *![Figure 3.1 Basic HTTP GET](images/Figure3.1.png)*
+![Figure 3.1 Basic HTTP GET](assets/image/Figure3.1.png)
 
 **Analisis:**
 Saat browser meminta `file1.html`, terjadi pertukaran pesan yang sederhana: klien mengirimkan satu pesan HTTP `GET` ke server (`gaia.cs.umass.edu`), dan server merespons dengan pesan HTTP `200 OK`. Respons dari server ini langsung membawa isi teks dari file HTML tersebut di dalam paketnya. Proses ini menunjukkan interaksi dasar tanpa hambatan atau fragmentasi karena ukuran file yang sangat kecil.
@@ -21,7 +21,7 @@ Saat browser meminta `file1.html`, terjadi pertukaran pesan yang sederhana: klie
 **Tujuan:** Melakukan GET bersyarat saat mengambil objek HTTP yang dipengaruhi oleh aktivitas *caching* pada *browser web*.
 
 **Bukti *Screenshot* Wireshark:**
-> *![Figure 3.2 HTTP Conditional GET](images/Figure3.2.png)*
+![Figure 3.2 HTTP Conditional GET](assets/image/Figure3.2.png)
 
 **Analisis:**
 Pada percobaan ini, karena browser sudah menyimpan *cache* dari akses sebelumnya, browser mengirimkan *request* `GET` bersyarat yang menyertakan header `If-Modified-Since`. Server mengecek apakah file tersebut telah diubah sejak waktu yang tertera. Jika tidak ada perubahan, server tidak akan membuang *bandwidth* dengan mengirim ulang isi file, melainkan hanya membalas dengan status `304 Not Modified`.
@@ -30,7 +30,7 @@ Pada percobaan ini, karena browser sudah menyimpan *cache* dari akses sebelumnya
 **Tujuan:** Mengamati perilaku HTTP saat mengunduh dokumen file HTML yang berukuran cukup panjang (sekitar 4500 byte), yang melebihi batas ukuran satu paket TCP.
 
 **Bukti *Screenshot* Wireshark:**
-> *![Figure 3.3 Retrieving Long Documents](images/Figure3.3.png)*
+![Figure 3.3 Retrieving Long Documents](assets/image/Figure3.3.png)
 
 **Analisis:**
 Pada percobaan ini, saat mengunduh file berukuran sekitar 4500 byte, terlihat keterangan `[4 Reassembled TCP Segments (4864 bytes)]` pada bagian paket HTTP `200 OK`. Hal ini terjadi karena ukuran file tersebut melebihi batas Maximum Transmission Unit (MTU) jaringan yang standarnya sekitar 1500 byte. Akibatnya, protokol TCP harus memecah (memfragmentasi) dokumen tersebut menjadi 4 segmen yang lebih kecil agar dapat ditransmisikan melintasi jaringan, sebelum akhirnya dirakit kembali (*reassembled*) di sisi *client*.
@@ -39,7 +39,7 @@ Pada percobaan ini, saat mengunduh file berukuran sekitar 4500 byte, terlihat ke
 **Tujuan:** Menganalisis apa yang terjadi ketika *browser* mengunduh dokumen HTML yang menyertakan objek lain (seperti gambar) yang direferensikan melalui URL dan disimpan di server yang berbeda.
 
 **Bukti *Screenshot* Wireshark:**
-> *![Figure 3.4 Embedded Objects](images/Figure3.4.png)*
+![Figure 3.4 Embedded Objects](assets/image/Figure3.4.png)
 
 **Analisis:**
 Saat mengakses halaman yang memiliki objek tersemat (seperti gambar logo pearson dan kurose), browser tidak mendapatkan semuanya sekaligus. Browser pertama-tama mengunduh file HTML dasar terlebih dahulu melalui *request* `GET`. Setelah mem-*parsing* file HTML tersebut dan menemukan referensi URL ke objek gambar, browser secara otomatis menginisiasi *request* HTTP `GET` baru secara spesifik untuk mengambil masing-masing gambar tersebut dari server.
@@ -48,7 +48,7 @@ Saat mengakses halaman yang memiliki objek tersemat (seperti gambar logo pearson
 **Tujuan:** Mengunjungi situs web yang dilindungi oleh kata sandi dan memeriksa urutan pesan HTTP yang dipertukarkan.
 
 **Bukti *Screenshot* Wireshark:**
-> *![Figure 3.5 HTTP Authentication](images/Figure3.5.png)*
+![Figure 3.5 HTTP Authentication](assets/image/Figure3.5.png)
 
 **Analisis:**
 Pada simulasi halaman web yang dilindungi sandi (`protected_pages`), percobaan akses pertama tanpa sandi langsung ditolak oleh server dengan status `401 Unauthorized`. Setelah kredensial (*username* dan *password*) dimasukkan pada *pop-up*, klien mengirimkan *request* `GET` kedua menggunakan header `Authorization: Basic`. Analisis pada *header* ini membuktikan bahwa metode tersebut tidak aman karena kredensial tidak dienkripsi, melainkan hanya dikodekan menggunakan format Base64 (terlihat sebagai string `d2lyZXNoYXJr...`). Siapa pun yang menyadap lalu lintas jaringan dapat dengan mudah mendekode string Base64 tersebut untuk melihat kata sandi aslinya.
