@@ -112,14 +112,13 @@ Penjelasan hasil capture:
 
 ### 4.1 Analisis Pesan DHCP Discover
 
-**[ TEMPAT SCREENSHOT 2 ]**
 
 ![DHCP Discover](assets/image/discover.png)
 
-| Field | Nilai (isi sesuai hasil capture) |
-|-------|-----------------------------------|
-| Transaction ID | ... |
-| Client MAC Address | ... |
+| Field | Nilai |
+|-------|-------|
+| Transaction ID | 0x9753f54f |
+| Client MAC Address | d8:b3:2f:43:5d:b1 |
 | Your (client) IP Address | 0.0.0.0 |
 | DHCP Message Type | 1 (Discover) |
 
@@ -127,47 +126,44 @@ Penjelasan hasil capture:
 
 ### 4.2 Analisis Pesan DHCP Offer
 
-**[ TEMPAT SCREENSHOT 3 ]**
 
 ![DHCP Offer](assets/image/offer.png)
 
-| Field | Nilai (isi sesuai hasil capture) |
-|-------|-----------------------------------|
-| Transaction ID | ... (harus sama dengan Discover) |
-| Your (client) IP Address | ... (alamat IP yang ditawarkan) |
+| Field | Nilai |
+|-------|-------|
+| Transaction ID | 0x9753f54f |
+| Your (client) IP Address | 10.211.194.201 |
 | DHCP Message Type | 2 (Offer) |
-| IP Address Lease Time | ... |
+| IP Address Lease Time | Terdapat pada Option (51) |
 
 **Analisis:** Server merespons dengan menawarkan satu alamat IP yang tersedia dari address pool yang dimilikinya. Transaction ID pada paket ini sama dengan Transaction ID pada paket Discover, menandakan keduanya satu transaksi yang sama.
 
 ### 4.3 Analisis Pesan DHCP Request
 
-**[ TEMPAT SCREENSHOT 4 ]**
 
 ![DHCP Request](assets/image/request.png)
 
-| Field | Nilai (isi sesuai hasil capture) |
-|-------|-----------------------------------|
-| Transaction ID | ... |
-| Requested IP Address | ... |
+| Field | Nilai |
+|-------|-------|
+| Transaction ID | 0x9753f54f |
+| Requested IP Address | 10.211.194.201 |
 | DHCP Message Type | 3 (Request) |
 
 **Analisis:** Client mengirimkan pesan secara broadcast untuk mengonfirmasi penerimaan alamat IP yang ditawarkan server. Pengiriman tetap berupa broadcast karena bisa terdapat lebih dari satu DHCP server yang memberikan offer.
 
 ### 4.4 Analisis Pesan DHCP ACK
 
-**[ TEMPAT SCREENSHOT 5 ]**
 
 ![DHCP ACK](assets/image/ack.png)
 
-| Field | Nilai (isi sesuai hasil capture) |
-|-------|-----------------------------------|
-| Transaction ID | ... |
-| Your (client) IP Address | ... |
+| Field | Nilai |
+|-------|-------|
+| Transaction ID | 0x9753f54f |
+| Your (client) IP Address | 10.211.194.201 |
 | DHCP Message Type | 5 (ACK) |
-| Subnet Mask | ... |
-| Router | ... |
-| Domain Name Server | ... |
+| Subnet Mask | 255.255.192.0 |
+| Router | Terdapat pada Option (3) |
+| Domain Name Server | Terdapat pada Option (6) |
 
 **Analisis:** Server mengonfirmasi pemberian alamat IP secara final kepada client beserta parameter konfigurasi jaringan tambahan seperti subnet mask, default gateway, dan DNS server.
 
